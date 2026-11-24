@@ -1,0 +1,441 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import Passos from '../components/Passos.astro';
+import IconeWhats from '../components/IconeWhats.astro';
+import fundo from '../assets/fundo.jpg';
+import foto from '../assets/dra-vivian.png';
+import monograma from '../assets/monograma.png';
+import { site, wa, faqHome, sinaisCapilares } from '../data/site';
+import { tratamentos } from '../data/tratamentos';
+
+const areas = [
+  {
+    tag: 'Rosto', titulo: 'Harmonização facial e estética regenerativa',
+    texto: 'Planejamento do rosto com equilíbrio e naturalidade. É sobre realçar, não transformar.',
+    foto: 'Foto a enviar: atendimento de harmonização facial',
+    itens: ['full-face', 'toxina-botulinica', 'preenchimento-labial', 'bioestimuladores'],
+  },
+  {
+    tag: 'Cabelo', titulo: 'Tricologia clínica integrativa',
+    texto: 'Saúde capilar de dentro para fora: o cuidado dos fios começa pela causa da queda.',
+    foto: 'Foto a enviar: avaliação capilar com tricoscópio',
+    itens: ['tricologia-integrativa', 'microagulhamento-capilar', 'regeneracao-personalizada'],
+  },
+];
+const nomeDe = (slug: string) => tratamentos.find((t) => t.slug === slug)!.nome;
+
+const passos = [
+  { t: 'Contato', d: 'Você chama no WhatsApp e agenda o melhor horário.', info: 'Resposta em [PRAZO]' },
+  { t: 'Avaliação', d: 'Conversa sobre seus objetivos, histórico e análise do rosto ou do couro cabeludo.', info: 'Duração: [TEMPO]' },
+  { t: 'Plano personalizado', d: 'Indicação das técnicas e produtos adequados, com explicação de cada etapa.', info: 'Valores apresentados na avaliação' },
+  { t: 'Acompanhamento', d: 'Retornos para avaliar a evolução e ajustar o cuidado.', info: 'Retorno: [CONDIÇÕES]' },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: faqHome.filter((f) => !f.a.startsWith('[')).map((f) => ({
+    '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<Base
+  title="Dra. Vivian Kiss · Harmonização facial e tricologia no ABC Paulista"
+  description="Harmonização facial, estética avançada e tricologia clínica integrativa com a Dra. Vivian Caravaggi Kiss. Protocolos seguros e planejamento para cada rosto."
+  schema={[faqSchema]}
+>
+  <!-- HERO -->
+  <section id="inicio" class="hero bg-escuro">
+    <Image src={fundo} alt="" class="hero-bg" widths={[800, 1600, 2400]} sizes="100vw" loading="eager" />
+    <div class="wrap-lg hero-grade">
+      <div class="hero-texto">
+        <div class="hero-script entra" style="--i:0">
+          <span class="script">{site.slogan}</span>
+          <span class="traco" aria-hidden="true"></span>
+        </div>
+        <h1 class="hero-h1 entra" style="--i:1">Harmonização facial e saúde capilar, com <em>estratégia</em> para cada rosto</h1>
+        <p class="hero-p entra" style="--i:2">Dra. Vivian Caravaggi Kiss. Uno harmonização facial, estética avançada e tricologia clínica integrativa para realçar a sua melhor versão, com protocolos seguros e base científica.</p>
+        <ul class="selos entra" style="--i:3">
+          <li><svg width="26" height="26" viewBox="0 0 48 48" fill="none" stroke="#E3A585" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="24" cy="24" r="16"></circle><path d="M18 21h1M29 21h1M18 30c3 3 9 3 12 0"></path></svg>Full face</li>
+          <li><svg width="28" height="28" viewBox="0 0 48 48" fill="none" stroke="#E3A585" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M24 36c-4-4-6-9-6-14 0-4 2-8 6-11 4 3 6 7 6 11 0 5-2 10-6 14z"></path><path d="M24 36c-5-1-10-4-13-9 2-3 5-4 9-4"></path><path d="M24 36c5-1 10-4 13-9-2-3-5-4-9-4"></path></svg>Estética avançada</li>
+          <li><svg width="26" height="26" viewBox="0 0 48 48" fill="none" stroke="#E3A585" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M16 42c-2-8-2-18 2-26 3-6 8-9 14-8"></path><path d="M22 42c-1-7 0-14 3-20 2-4 6-7 10-7"></path></svg>Saúde capilar</li>
+        </ul>
+        <div class="hero-acoes entra" style="--i:4">
+          <a class="btn btn-ouro btn-lg" href={wa()} target="_blank" rel="noopener"><IconeWhats size={24} /> Agendar avaliação</a>
+          <a class="btn btn-linha btn-lg" href="#tratamentos">Conhecer os tratamentos</a>
+        </div>
+      </div>
+      <div class="hero-foto entra-foto">
+        <div class="arco" data-parallax>
+          <Image src={foto} alt="Dra. Vivian Caravaggi Kiss sorrindo, de jaleco branco" widths={[400, 600, 900]} sizes="(max-width: 700px) 90vw, 560px" loading="eager" fetchpriority="high" />
+        </div>
+        <div class="selo-nome">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#E3A585" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M24 36c-4-4-6-9-6-14 0-4 2-8 6-11 4 3 6 7 6 11 0 5-2 10-6 14z"></path><path d="M24 36c-5-1-10-4-13-9 2-3 5-4 9-4"></path><path d="M24 36c5-1 10-4 13-9-2-3-5-4-9-4"></path><path d="M10 40h28"></path></svg>
+          <span class="divisor" aria-hidden="true"></span>
+          <span><span class="sn1">Dra. Vivian C. Kiss</span><span class="sn2">Tricologia &amp; Harmonização Facial</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENCIAIS -->
+  <section aria-label="Credenciais" class="cred">
+    <div class="wrap cred-grade">
+      <p class="cred-frase reveal">Cada produto, uma indicação. <em>Cada rosto, uma estratégia.</em></p>
+      <dl class="cred-nums">
+        {site.credenciais.map((c, i) => (
+          <div class="reveal" style={`--d:${i * 80}ms`}><dt>{c.rotulo}</dt><dd>{c.valor}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- ÁREAS -->
+  <section id="areas" class="sec bg-creme">
+    <div class="wrap">
+      <div class="cab-split">
+        <h2 class="h2 reveal">Duas frentes que <em>conversam</em> entre si</h2>
+        <p class="lead reveal" style="--d:100ms">Rosto e cabelo são avaliados com o mesmo olhar: entender a causa antes de indicar o tratamento.</p>
+      </div>
+      <div class="areas">
+        {areas.map((a, i) => (
+          <article class="area reveal" style={`--d:${i * 120}ms`}>
+            <div class="foto-a-enviar area-foto">{a.foto}</div>
+            <div class="area-corpo">
+              <span class="tag">{a.tag}</span>
+              <h3>{a.titulo}</h3>
+              <p class="lead">{a.texto}</p>
+              <ul>
+                {a.itens.map((s) => <li><a href={`/tratamentos/${s}`}><span>{nomeDe(s)}</span><span aria-hidden="true">→</span></a></li>)}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TRATAMENTOS -->
+  <section id="tratamentos" class="sec bg-creme-2">
+    <div class="wrap">
+      <div class="trat-cab">
+        <h2 class="h2 reveal">Tratamentos</h2>
+        <div role="group" aria-label="Filtrar tratamentos" class="filtros reveal" data-filtros>
+          {['Todos', 'Rosto', 'Pele', 'Cabelo'].map((f, i) => (
+            <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-filtro={f}>{f}</button>
+          ))}
+        </div>
+      </div>
+      <div class="trat-grade">
+        <div class="trat-lista" data-lista>
+          {tratamentos.map((t, i) => (
+            <button type="button" class="trat-item" aria-pressed={i === 0 ? 'true' : 'false'} aria-controls="painel-trat" data-item={t.slug} data-grupo={t.grupo}>
+              <span class="trat-nome">{t.nome}</span>
+              <span class="trat-grupo">{t.grupo}</span>
+            </button>
+          ))}
+        </div>
+        <aside id="painel-trat" class="painel" aria-live="polite">
+          {tratamentos.map((t, i) => (
+            <div class="painel-item" data-painel={t.slug} hidden={i !== 0}>
+              <div class="foto-a-enviar painel-foto">Foto a enviar: {t.nome}</div>
+              <div class="painel-corpo">
+                <span class="pill">{t.area}</span>
+                <h3>{t.nome}</h3>
+                <p class="lead">{t.resumo}</p>
+                <dl class="fatos">
+                  <div><dt>Duração</dt><dd>{t.duracao}</dd></div>
+                  <div><dt>Recuperação</dt><dd>{t.recuperacao}</dd></div>
+                </dl>
+                <p class="quem"><strong>Para quem é:</strong> <span>{t.paraQuem}</span></p>
+                <div class="painel-acoes">
+                  <a class="btn btn-cobre" href={wa(`Olá, Dra. Vivian! Vim pelo site e gostaria de saber mais sobre ${t.nome.toLowerCase()}.`)} target="_blank" rel="noopener">Agendar avaliação</a>
+                  <a class="saiba" href={`/tratamentos/${t.slug}`}>Saiba mais →</a>
+                </div>
+                <p class="nota">Indicação, técnica e quantidade são definidas somente após avaliação individual.</p>
+              </div>
+            </div>
+          ))}
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRICOLOGIA -->
+  <section id="tricologia" class="sec bg-escuro">
+    <div class="wrap tri">
+      <div class="tri-texto">
+        <p class="script reveal" style="color: var(--cobre-claro)">Tricologia clínica integrativa</p>
+        <h2 class="h2 reveal">Seu cabelo está dando <em>sinais?</em></h2>
+        <p class="lead reveal" style="margin: 28px 0 32px; max-width: 520px">Queda e fios finos raramente têm uma causa só. A consulta avalia couro cabeludo, fios, hábitos e fatores internos para tratar a origem, e não só o sintoma.</p>
+        <div class="reveal" style="display:flex; flex-wrap:wrap; gap:16px">
+          <a class="btn btn-ouro" href="/tricologia#sinais">Fazer o autoteste</a>
+          <a class="btn btn-linha" href="/tricologia">Conhecer a tricologia</a>
+        </div>
+      </div>
+      <ul class="sinais">
+        {sinaisCapilares.slice(0, 6).map((s, i) => (
+          <li class="reveal" style={`--d:${i * 70}ms`}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E3A585" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M7.5 12.5l3 3 6-6.5"></path></svg>{s}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre" class="sec bg-creme">
+    <div class="wrap sobre">
+      <div class="foto-a-enviar sobre-foto reveal">Foto a enviar: retrato da Dra. Vivian no consultório</div>
+      <div class="sobre-texto">
+        <h2 class="h2 reveal">Prazer, <em>Vivian</em></h2>
+        <p class="registro reveal">{site.registro} · {site.cidade}, SP</p>
+        <p class="lead reveal" style="margin-top: 24px">Dra. Vivian Caravaggi Kiss atua em harmonização facial, estética regenerativa e tricologia clínica integrativa. Seu propósito é embelezar com naturalidade e devolver autoestima, sempre com atualização constante em segurança e técnica.</p>
+        <blockquote class="reveal">“Embelezar... esse é o propósito. Autoestima é tudo.”</blockquote>
+        <ol class="linha-tempo">
+          {site.formacao.map((e, i) => (
+            <li class="reveal" style={`--d:${i * 80}ms`}><span class="ano">{e.ano}</span><span>{e.texto}</span></li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSULTÓRIO -->
+  <section aria-labelledby="consultorio-t" class="sec bg-creme-2">
+    <div class="wrap">
+      <h2 id="consultorio-t" class="h2 reveal" style="margin-bottom: 48px">Um espaço pensado <em>para você</em></h2>
+      <div class="galeria">
+        <div class="foto-a-enviar g1 reveal">Foto a enviar: sala de atendimento</div>
+        <div class="foto-a-enviar reveal" style="--d:80ms">Foto a enviar: recepção</div>
+        <div class="foto-a-enviar reveal" style="--d:160ms">Foto a enviar: tricoscópio e equipamentos</div>
+        <div class="avaliacao reveal" style="--d:240ms">
+          <div class="nota-google"><span class="num">[NOTA]</span><span>no Google · [Nº] avaliações</span></div>
+          <p class="depo">[Depoimento real de paciente, copiado do Google com autorização]</p>
+          <a href="#contato" class="saiba">Ver avaliações no Google →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section id="atendimento" class="sec bg-creme">
+    <div class="wrap">
+      <h2 class="h2 reveal" style="margin-bottom: 56px; max-width: 760px">Do primeiro contato ao <em>acompanhamento</em></h2>
+      <Passos itens={passos} />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="duvidas" class="sec bg-creme-2">
+    <div class="wrap duvidas">
+      <div class="duv-cab">
+        <h2 class="h2 reveal">Perguntas <em>frequentes</em></h2>
+        <p class="lead reveal" style="margin-top: 24px">Não achou sua dúvida? <a href={wa()} target="_blank" rel="noopener">Pergunte pelo WhatsApp</a>.</p>
+      </div>
+      <div class="duv-lista reveal"><Faq itens={faqHome} /></div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" class="sec bg-escuro contato">
+    <Image src={fundo} alt="" class="contato-bg" widths={[800, 1600]} sizes="100vw" />
+    <div class="wrap contato-grade">
+      <div class="contato-texto">
+        <Image src={monograma} alt="" width={176} height={112} class="contato-mono reveal" />
+        <p class="script reveal" style="color: var(--cobre-claro)">{site.slogan}</p>
+        <h2 class="h2 reveal">Agende a sua avaliação</h2>
+        <p class="lead reveal" style="margin-top: 22px; max-width: 520px">Atendimento individual e com hora marcada. Mande uma mensagem e conte o que você procura.</p>
+        <a class="btn btn-ouro btn-lg reveal" style="margin-top: 32px" href={wa()} target="_blank" rel="noopener"><IconeWhats size={22} /> Falar com a Dra. Vivian</a>
+        <dl class="dados">
+          <div><dt>WhatsApp</dt><dd><a href={wa()} target="_blank" rel="noopener">{site.whatsappExibicao}</a></dd></div>
+          <div><dt>Instagram</dt><dd><a href={site.instagram} target="_blank" rel="noopener">{site.instagramExibicao}</a></dd></div>
+          <div><dt>Endereço</dt><dd>{site.endereco}<br />{site.cidade} · {site.regiao}</dd></div>
+          <div><dt>Horários</dt><dd>{site.horarios}</dd></div>
+        </dl>
+      </div>
+      <div class="mapa reveal">Mapa do consultório (Google Maps entra aqui quando o endereço estiver definido)</div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Filtro e painel de tratamentos
+  const filtros = document.querySelectorAll<HTMLButtonElement>('[data-filtro]');
+  const itens = document.querySelectorAll<HTMLButtonElement>('[data-item]');
+  const paineis = document.querySelectorAll<HTMLElement>('[data-painel]');
+
+  const escolhe = (slug: string) => {
+    itens.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.item === slug)));
+    paineis.forEach((p) => {
+      const ativo = p.dataset.painel === slug;
+      p.hidden = !ativo;
+      if (ativo) { p.classList.remove('troca'); void p.offsetWidth; p.classList.add('troca'); }
+    });
+  };
+  itens.forEach((b) => b.addEventListener('click', () => escolhe(b.dataset.item!)));
+  filtros.forEach((f) => f.addEventListener('click', () => {
+    const g = f.dataset.filtro!;
+    filtros.forEach((x) => x.setAttribute('aria-pressed', String(x === f)));
+    let primeiro: string | undefined;
+    itens.forEach((b) => {
+      const mostra = g === 'Todos' || b.dataset.grupo === g;
+      b.hidden = !mostra;
+      if (mostra && !primeiro) primeiro = b.dataset.item;
+    });
+    if (primeiro) escolhe(primeiro);
+  }));
+
+  // Parallax suave na foto do hero
+  const arco = document.querySelector<HTMLElement>('[data-parallax]');
+  if (arco && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.addEventListener('scroll', () => {
+      const y = Math.min(window.scrollY, 900);
+      arco.style.transform = `translateY(${y * 0.08}px)`;
+    }, { passive: true });
+  }
+</script>
+
+<style>
+  /* Hero (aprovado na v3/v4) */
+  .hero { position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-grade { position: relative; z-index: 1; padding: 120px var(--gutter) 0; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 40px; }
+  .hero-texto { flex: 1 1 560px; min-width: 0; padding-bottom: 96px; }
+  .hero-script { display: flex; align-items: center; gap: 28px; margin-bottom: 26px; }
+  .hero-script .script { font-size: clamp(32px, 3.4vw, 44px); }
+  .traco { flex: 0 1 220px; height: 1px; background: linear-gradient(90deg, #C98B6B, #C98B6B00); }
+  .hero-h1 { font-size: clamp(46px, 5.6vw, 76px); line-height: 1.04; letter-spacing: -0.01em; color: var(--claro); }
+  .hero-h1 em { color: var(--cobre-claro); }
+  .hero-p { margin-top: 26px; max-width: 640px; font-size: clamp(17px, 1.4vw, 19px); color: #F2DCCF; }
+  .selos { list-style: none; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; margin: 34px 0 0; padding: 14px 30px; border: 1px solid #8A5A44; border-radius: 999px; font-size: 16px; font-weight: 500; color: var(--claro); }
+  .selos li { display: inline-flex; align-items: center; gap: 12px; }
+  .selos li + li::before { content: ''; width: 1px; height: 22px; background: #8A5A44; margin-right: 10px; }
+  .hero-acoes { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 44px; }
+  .hero-foto { flex: 0 1 560px; min-width: 0; position: relative; align-self: stretch; display: flex; justify-content: center; align-items: flex-end; }
+  .arco { position: relative; width: 100%; max-width: 560px; height: clamp(460px, 56vw, 800px); border-radius: 280px 280px 0 0; padding: 4px 4px 0; background: linear-gradient(180deg, #F2C3A4 0%, #A0543A 60%, #6E3420 100%); box-shadow: 0 0 60px -10px #C98B6B88; will-change: transform; }
+  .arco img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; border-radius: 276px 276px 0 0; background: radial-gradient(ellipse at 50% 30%, #8A4A33 0%, #4A2216 80%); }
+  .selo-nome { position: absolute; left: -40px; bottom: 90px; display: flex; align-items: center; gap: 18px; padding: 20px 28px; border-radius: 16px; background: #2A140DE6; border: 1px solid #8A5A44; box-shadow: 0 18px 40px -20px #000; animation: flutua 6s ease-in-out 1.6s infinite; }
+  .selo-nome .divisor { width: 1px; height: 44px; background: #8A5A44; }
+  .selo-nome > span:last-child { display: flex; flex-direction: column; line-height: 1.3; }
+  .sn1 { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--claro); }
+  .sn2 { font-size: 15px; color: #E3C3B2; }
+  .entra { animation: sobe .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i) * 120ms + 150ms); }
+  .entra-foto { animation: surge 1.2s cubic-bezier(.2,.7,.2,1) .2s both; }
+  @keyframes sobe { from { opacity: 0; transform: translateY(26px); } }
+  @keyframes surge { from { opacity: 0; transform: translateY(40px) scale(.97); } }
+  @keyframes flutua { 50% { transform: translateY(-8px); } }
+  @media (max-width: 700px) {
+    .selo-nome { left: 0; bottom: 24px; padding: 14px 18px; }
+    .hero-texto { padding-bottom: 40px; }
+    .selos { border-radius: 24px; flex-direction: column; align-items: flex-start; }
+    .selos li + li::before { display: none; }
+  }
+
+  /* Credenciais */
+  .cred { background: var(--escuro-2); color: #F6E6DC; padding: 56px var(--gutter); border-top: 1px solid #4A2619; }
+  .cred-grade { display: flex; flex-wrap: wrap; align-items: center; gap: 32px 64px; }
+  .cred-frase { flex: 1 1 320px; font-family: var(--serif); font-size: 32px; line-height: 1.15; color: var(--claro); }
+  .cred-frase em { color: var(--cobre-claro); }
+  .cred-nums { flex: 2 1 600px; display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; border-left: 1px solid var(--linha-escura); }
+  .cred-nums div { padding: 8px 24px; border-right: 1px solid var(--linha-escura); display: flex; flex-direction: column-reverse; }
+  .cred-nums dd { margin: 0; font-family: var(--serif); font-size: clamp(32px, 3vw, 44px); line-height: 1; color: var(--cobre-claro); overflow-wrap: anywhere; }
+  @media (max-width: 760px) { .cred-nums { grid-template-columns: 1fr 1fr; row-gap: 24px; } }
+  .cred-nums dt { font-size: 14px; color: var(--claro-2); margin-top: 8px; }
+
+  /* Áreas */
+  .cab-split { display: flex; flex-wrap: wrap; gap: 24px 80px; align-items: flex-end; margin-bottom: 56px; }
+  .cab-split .h2 { flex: 1 1 520px; }
+  .cab-split .lead { flex: 1 1 320px; }
+  .areas { display: flex; flex-wrap: wrap; gap: 28px; }
+  .area { flex: 1 1 480px; min-width: 0; background: var(--cartao); border-radius: 28px; overflow: hidden; display: flex; flex-direction: column; transition: transform .4s ease, box-shadow .4s ease; }
+  .area:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -40px #5A2414; }
+  .area-foto { height: 320px; }
+  .area-corpo { padding: 40px; display: flex; flex-direction: column; gap: 14px; }
+  .tag { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 600; color: var(--cobre); }
+  .area h3 { font-size: clamp(32px, 3vw, 40px); line-height: 1.05; }
+  .area ul { list-style: none; margin: 8px 0 0; padding: 0; border-bottom: 1px solid var(--linha-clara); }
+  .area li { border-top: 1px solid var(--linha-clara); }
+  .area li a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; color: var(--texto); text-decoration: none; font-size: 15px; transition: padding .25s ease, color .25s ease; }
+  .area li a:hover { padding-left: 8px; color: var(--cobre); }
+
+  /* Tratamentos */
+  .trat-cab { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 40px; }
+  .filtros { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filtros button { min-height: 44px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--dourado); background: transparent; color: var(--cobre-escuro); font: 600 14px var(--sans); cursor: pointer; transition: background-color .25s ease, color .25s ease; }
+  .filtros button[aria-pressed='true'] { background: var(--cobre); border-color: var(--cobre); color: #fff; }
+  .trat-grade { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
+  .trat-lista { flex: 1 1 480px; min-width: 0; border-top: 1px solid var(--linha); }
+  .trat-item { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 20px; border: 0; border-bottom: 1px solid var(--linha); background: transparent; cursor: pointer; text-align: left; transition: background-color .25s ease; }
+  .trat-item:hover { background: #FFFAF680; }
+  .trat-item[aria-pressed='true'] { background: var(--cartao); }
+  .trat-nome { font-family: var(--serif); font-size: clamp(26px, 2.6vw, 36px); line-height: 1.1; color: var(--texto); transition: color .25s ease; }
+  .trat-item[aria-pressed='true'] .trat-nome { color: var(--cobre); font-style: italic; }
+  .trat-grupo { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-2); }
+  .painel { flex: 1 1 400px; min-width: 0; position: sticky; top: 110px; background: var(--cartao); border-radius: 28px; overflow: hidden; }
+  .painel-item.troca { animation: aparece .45s ease both; }
+  @keyframes aparece { from { opacity: 0; transform: translateY(10px); } }
+  .painel-foto { height: 220px; }
+  .painel-corpo { padding: 32px 36px 36px; display: flex; flex-direction: column; gap: 14px; }
+  .pill { align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: var(--rosa); color: var(--cobre-escuro); font-size: 12px; font-weight: 600; }
+  .painel h3 { font-size: 44px; line-height: 1.05; }
+  .fatos { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 6px 0 0; background: var(--linha-clara); border: 1px solid var(--linha-clara); border-radius: 14px; overflow: hidden; font-size: 14px; }
+  .fatos div { background: var(--cartao); padding: 14px 16px; }
+  .fatos dt { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--texto-2); font-weight: 600; }
+  .fatos dd { margin: 4px 0 0; }
+  .quem { font-size: 15px; }
+  .quem span { color: var(--texto-2); }
+  .painel-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 6px; }
+  .saiba { font-weight: 600; font-size: 14px; }
+  .nota { font-size: 13px; color: var(--texto-2); }
+
+  /* Tricologia */
+  .tri { display: flex; flex-wrap: wrap; gap: 72px; align-items: center; }
+  .tri-texto { flex: 1 1 460px; min-width: 0; }
+  .tri .script { margin-bottom: 18px; }
+  .sinais { flex: 1 1 460px; min-width: 0; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .sinais li { display: flex; align-items: center; gap: 14px; padding: 22px; border: 1px solid var(--linha-escura); border-radius: 18px; background: var(--escuro-3); color: var(--claro); transition: border-color .3s ease, transform .3s ease; }
+  .sinais li:hover { border-color: var(--dourado); transform: translateY(-2px); }
+  .sinais svg { flex: none; }
+
+  /* Sobre */
+  .sobre { display: flex; flex-wrap: wrap; gap: 72px; align-items: center; }
+  .sobre-foto { flex: 1 1 400px; min-width: 0; height: clamp(440px, 50vw, 640px); border-radius: 320px 320px 28px 28px; font-size: 14px; }
+  .sobre-texto { flex: 1 1 520px; min-width: 0; }
+  .registro { margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--cobre); }
+  blockquote { margin: 28px 0 0; padding: 4px 0 4px 22px; border-left: 2px solid var(--dourado); font-family: var(--serif); font-style: italic; font-size: 28px; line-height: 1.25; color: var(--cobre-escuro); }
+  .linha-tempo { list-style: none; margin: 36px 0 0; padding: 0; border-left: 1px solid var(--linha); }
+  .linha-tempo li { position: relative; padding: 0 0 22px 28px; display: flex; flex-direction: column; }
+  .linha-tempo li::before { content: ''; position: absolute; left: -5px; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: var(--dourado); }
+  .ano { font-size: 13px; font-weight: 600; color: var(--cobre); }
+
+  /* Consultório */
+  .galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .galeria > * { min-height: 250px; border-radius: 24px; }
+  .g1 { grid-row: span 2; min-height: 520px; }
+  .avaliacao { grid-column: span 2; background: var(--cartao); padding: 36px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+  .nota-google { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--texto-2); }
+  .nota-google .num { font-family: var(--serif); font-size: 48px; line-height: 1; color: var(--cobre); }
+  .depo { font-family: var(--serif); font-size: 26px; line-height: 1.3; font-style: italic; color: var(--cobre-escuro); }
+  @media (max-width: 620px) { .avaliacao { grid-column: auto; } .g1 { grid-row: auto; min-height: 300px; } }
+
+  /* FAQ */
+  .duvidas { display: flex; flex-wrap: wrap; gap: 72px; }
+  .duv-cab { flex: 1 1 340px; }
+  .duv-lista { flex: 1 1 600px; min-width: 0; }
+
+  /* Contato */
+  .contato { position: relative; overflow: hidden; }
+  .contato-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .35; }
+  .contato-grade { position: relative; display: flex; flex-wrap: wrap; gap: 56px; align-items: stretch; }
+  .contato-texto { flex: 1 1 520px; min-width: 0; }
+  .contato-mono { width: 88px; height: auto; margin-bottom: 20px; }
+  .contato .script { margin-bottom: 8px; }
+  .dados { margin: 44px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; padding-top: 28px; border-top: 1px solid var(--linha-escura); }
+  .dados dt { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--dourado); }
+  .dados dd { margin: 4px 0 0; font-size: 18px; }
+  .dados a { color: #F6E6DC; text-decoration: none; }
+  .dados a:hover { color: var(--cobre-claro); }
+  .mapa { flex: 1 1 400px; min-width: 0; min-height: 420px; border-radius: 28px; border: 1px solid var(--linha-escura); background: var(--escuro-3); display: flex; align-items: center; justify-content: center; padding: 24px; color: #E3C3B2; font-size: 14px; font-weight: 600; text-align: center; }
+</style>

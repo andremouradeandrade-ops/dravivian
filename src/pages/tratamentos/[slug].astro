@@ -1,0 +1,117 @@
+---
+import Base from '../../layouts/Base.astro';
+import HeroInterno from '../../components/HeroInterno.astro';
+import Passos from '../../components/Passos.astro';
+import Faq from '../../components/Faq.astro';
+import CtaFaixa from '../../components/CtaFaixa.astro';
+import { tratamentos, type Tratamento } from '../../data/tratamentos';
+import { wa } from '../../data/site';
+
+export function getStaticPaths() {
+  return tratamentos.map((t) => ({ params: { slug: t.slug }, props: { t } }));
+}
+const { t } = Astro.props as { t: Tratamento };
+const outros = tratamentos.filter((o) => o.slug !== t.slug && o.grupo === t.grupo)
+  .concat(tratamentos.filter((o) => o.slug !== t.slug && o.grupo !== t.grupo))
+  .slice(0, 3);
+const msg = `Olá, Dra. Vivian! Vim pelo site e gostaria de saber mais sobre ${t.nome.toLowerCase()}.`;
+const respondidas = t.faq.filter((f) => !f.a.startsWith('['));
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'MedicalProcedure', name: t.nome, description: t.resumo },
+  ...(respondidas.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: respondidas.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }] : []),
+];
+---
+<Base title={`${t.nome} · Dra. Vivian Kiss`} description={t.resumo} atual="tratamentos" schema={schema}>
+  <HeroInterno
+    trilha={[{ href: '/', rotulo: 'Início' }, { href: '/#tratamentos', rotulo: 'Tratamentos' }, { rotulo: t.nome }]}
+    sobretitulo={t.area}
+    titulo={t.titulo}
+    resumo={t.resumo}
+    foto={`Foto a enviar: ${t.nome}`}
+  >
+    <dl class="fatos">
+      <div><dt>Duração</dt><dd>{t.duracao}</dd></div>
+      <div><dt>Recuperação</dt><dd>{t.recuperacao}</dd></div>
+      <div><dt>Efeito</dt><dd>{t.efeito}</dd></div>
+    </dl>
+    <a class="btn btn-ouro btn-lg" style="margin-top: 36px" href={wa(msg)} target="_blank" rel="noopener">Agendar avaliação</a>
+  </HeroInterno>
+
+  <section class="sec bg-creme">
+    <div class="wrap split">
+      <h2 class="h2 reveal">O que <em>é</em></h2>
+      <div class="texto reveal" style="--d:100ms">
+        {t.oQueE.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-creme-2">
+    <div class="wrap">
+      <h2 class="h2 reveal" style="margin-bottom: 48px">Para quem é <em>indicado</em></h2>
+      <ul class="grade-cards">
+        {t.indicacoes.map((i, n) => (
+          <li class="cartao reveal" style={`--d:${n * 80}ms`}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#96492C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M7.5 12.5l3 3 6-6.5"></path></svg>
+            <span class="t">{i.t}</span><span class="d">{i.d}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec bg-escuro">
+    <div class="wrap">
+      <h2 class="h2 reveal" style="margin-bottom: 56px">Como é o <em>procedimento</em></h2>
+      <Passos itens={t.passos} escuro />
+    </div>
+  </section>
+
+  <section class="sec bg-creme">
+    <div class="wrap cuidados">
+      <div class="cartao grande reveal"><h3>Antes</h3><ul>{t.antes.map((a) => <li>{a}</li>)}</ul></div>
+      <div class="cartao grande reveal" style="--d:100ms"><h3>Depois</h3><ul>{t.depois.map((a) => <li>{a}</li>)}</ul></div>
+    </div>
+  </section>
+
+  <section class="sec bg-creme-2">
+    <div class="wrap split">
+      <h2 class="h2 reveal">Dúvidas sobre <em>{t.nome.toLowerCase()}</em></h2>
+      <div class="reveal"><Faq itens={t.faq} /></div>
+    </div>
+  </section>
+
+  <section class="sec bg-creme">
+    <div class="wrap">
+      <div class="outros-cab">
+        <h2 class="h2 reveal">Outros <em>tratamentos</em></h2>
+        <a href="/#tratamentos" class="reveal" style="font-weight: 600">Ver todos →</a>
+      </div>
+      <div class="grade-cards">
+        {outros.map((o, n) => (
+          <a class="card-link reveal" style={`--d:${n * 90}ms`} href={`/tratamentos/${o.slug}`}>
+            <span class="foto-a-enviar">Foto a enviar</span>
+            <span class="corpo"><span class="area">{o.area}</span><span class="nome">{o.nome}</span><span class="mais">Saiba mais →</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaFaixa titulo="Vamos conversar sobre o seu rosto?" mensagem={msg} />
+</Base>
+
+<style>
+  .fatos { display: flex; flex-wrap: wrap; margin: 40px 0 0; border-top: 1px solid var(--linha-escura); border-bottom: 1px solid var(--linha-escura); }
+  .fatos div { flex: 1 1 150px; padding: 18px 24px; }
+  .fatos div:first-child { padding-left: 0; }
+  .fatos div + div { border-left: 1px solid var(--linha-escura); }
+  .fatos dt { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--dourado); }
+  .fatos dd { margin: 6px 0 0; font-family: var(--serif); font-size: 26px; color: var(--claro); }
+  .texto { display: flex; flex-direction: column; gap: 18px; font-size: 18px; color: var(--texto-2); }
+  .cuidados { display: flex; flex-wrap: wrap; gap: 24px; }
+  .grande { flex: 1 1 480px; padding: 40px; border-radius: 28px; }
+  .grande h3 { font-size: 38px; margin-bottom: 8px; }
+  .grande ul { margin: 0; padding-left: 20px; color: var(--texto-2); display: flex; flex-direction: column; gap: 10px; }
+  .outros-cab { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 40px; }
+</style>

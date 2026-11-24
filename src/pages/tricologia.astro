@@ -1,0 +1,183 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroInterno from '../components/HeroInterno.astro';
+import Passos from '../components/Passos.astro';
+import Faq from '../components/Faq.astro';
+import CtaFaixa from '../components/CtaFaixa.astro';
+import { wa, sinaisCapilares, site } from '../data/site';
+import { tratamentos } from '../data/tratamentos';
+
+const msg = 'Olá, Dra. Vivian! Vim pelo site e gostaria de agendar uma consulta de tricologia.';
+const causas = [
+  { t: 'Hormônios', d: 'Alterações hormonais podem influenciar o ciclo do fio.' },
+  { t: 'Nutrição', d: 'Dietas restritivas e carências podem refletir nos fios.' },
+  { t: 'Estresse', d: 'Períodos intensos podem desencadear queda meses depois.' },
+  { t: 'Couro cabeludo', d: 'Oleosidade, inflamação e sensibilidade afetam o crescimento.' },
+  { t: 'Genética', d: 'Predisposição familiar ao afinamento progressivo.' },
+  { t: 'Rotina e hábitos', d: 'Sono, químicas, penteados e cuidados do dia a dia.' },
+];
+const passos = [
+  { t: 'Conversa', d: 'Histórico, rotina, hábitos e quando a queda começou.' },
+  { t: 'Avaliação dos fios', d: 'Couro cabeludo, densidade e espessura dos fios.' },
+  { t: 'Plano integrativo', d: 'Tratamento em consultório e cuidados em casa, conforme indicação.' },
+  { t: 'Acompanhamento', d: 'O ciclo do fio é lento: a evolução é acompanhada em retornos.' },
+];
+const capilares = tratamentos.filter((t) => t.grupo === 'Cabelo').concat(tratamentos.filter((t) => t.slug === 'regeneracao-personalizada'));
+const faq = [
+  { q: 'O que é tricologia clínica integrativa?', a: 'É o cuidado do couro cabeludo e dos fios olhando para o todo: além do cabelo, são investigados hábitos, rotina e fatores internos que podem influenciar a queda.' },
+  { q: 'Tratamento capilar tem resultado rápido?', a: 'O ciclo do fio é lento, então a evolução é acompanhada ao longo de semanas e meses. O plano e a frequência das sessões são definidos na consulta.' },
+  { q: 'Preciso levar exames?', a: '[Resposta da Dra. sobre exames na primeira consulta.]' },
+  { q: 'Homens também podem tratar?', a: '[Resposta da Dra. sobre atendimento masculino.]' },
+];
+---
+<Base
+  title="Tricologia clínica integrativa · Dra. Vivian Kiss"
+  description="Queda de cabelo e fios finos: avaliação do couro cabeludo, dos fios, dos hábitos e de fatores internos para tratar a origem. Faça o autoteste."
+  atual="tricologia"
+>
+  <HeroInterno
+    trilha={[{ href: '/', rotulo: 'Início' }, { rotulo: 'Tricologia' }]}
+    sobretitulo="Saúde capilar"
+    titulo={['Tricologia clínica', 'integrativa']}
+    resumo="O cuidado dos fios começa pela causa da queda. Avaliamos couro cabeludo, fios, hábitos e fatores internos para montar um plano que trate a origem."
+    foto="Foto a enviar: Dra. Vivian com tricoscópio"
+  >
+    <div class="acoes">
+      <a class="btn btn-ouro btn-lg" href={wa(msg)} target="_blank" rel="noopener">Agendar consulta capilar</a>
+      <a class="btn btn-linha btn-lg" href="#sinais">Fazer o autoteste</a>
+    </div>
+  </HeroInterno>
+
+  <!-- AUTOTESTE -->
+  <section id="sinais" class="sec bg-creme">
+    <div class="wrap teste">
+      <div class="teste-texto">
+        <h2 class="h2 reveal">Seu cabelo está dando <em>sinais?</em></h2>
+        <p class="lead reveal" style="margin-top: 24px">Marque o que você tem notado. Não é diagnóstico: é um jeito de chegar à consulta sabendo o que contar.</p>
+        <div class="resultado reveal" aria-live="polite">
+          <p class="contagem"><span data-contagem>0</span> <small>de {sinaisCapilares.length} sinais</small></p>
+          <div class="barra" aria-hidden="true"><span data-barra></span></div>
+          <p class="veredito" data-veredito>Toque nos sinais que você reconhece.</p>
+          <a class="btn btn-cobre" href={wa(msg)} target="_blank" rel="noopener" data-enviar>Enviar para a Dra. no WhatsApp</a>
+        </div>
+      </div>
+      <ul class="lista-sinais">
+        {sinaisCapilares.map((s, i) => (
+          <li class="reveal" style={`--d:${i * 50}ms`}>
+            <button type="button" aria-pressed="false" data-sinal={s}>
+              <span class="check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"></path></svg></span>
+              {s}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CAUSAS -->
+  <section class="sec bg-escuro">
+    <div class="wrap">
+      <div class="cab-split">
+        <h2 class="h2 reveal">A queda raramente tem <em>uma causa só</em></h2>
+        <p class="lead reveal">Por isso a investigação vai além do couro cabeludo. Estes são alguns dos fatores olhados em conjunto:</p>
+      </div>
+      <div class="causas">
+        {causas.map((c, i) => (
+          <div class="reveal" style={`--d:${i * 70}ms`}><span class="t">{c.t}</span><span class="d">{c.d}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-creme-2">
+    <div class="wrap">
+      <h2 class="h2 reveal" style="margin-bottom: 56px">Como é a <em>consulta</em></h2>
+      <Passos itens={passos} />
+    </div>
+  </section>
+
+  <section class="sec bg-creme">
+    <div class="wrap">
+      <h2 class="h2 reveal" style="margin-bottom: 40px">Tratamentos <em>capilares</em></h2>
+      <div class="grade-cards">
+        {capilares.map((t, i) => (
+          <a class="card-link reveal" style={`--d:${i * 90}ms`} href={`/tratamentos/${t.slug}`}>
+            <span class="foto-a-enviar">Foto a enviar</span>
+            <span class="corpo"><span class="nome">{t.nome}</span><span style="font-size:15px;color:var(--texto-2)">{t.resumo}</span><span class="mais">Saiba mais →</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bg-creme-2">
+    <div class="wrap split">
+      <h2 class="h2 reveal">Dúvidas sobre <em>cabelo</em></h2>
+      <div class="reveal"><Faq itens={faq} /></div>
+    </div>
+  </section>
+
+  <CtaFaixa titulo="Vamos cuidar dos seus fios?" mensagem={msg} />
+</Base>
+
+<script define:vars={{ numero: site.whatsapp, base: msg }}>
+  const botoes = document.querySelectorAll('[data-sinal]');
+  const contagem = document.querySelector('[data-contagem]');
+  const barra = document.querySelector('[data-barra]');
+  const veredito = document.querySelector('[data-veredito]');
+  const enviar = document.querySelector('[data-enviar]');
+  const total = botoes.length;
+
+  const atualiza = () => {
+    const marcados = [...botoes].filter((b) => b.getAttribute('aria-pressed') === 'true').map((b) => b.dataset.sinal.toLowerCase());
+    const n = marcados.length;
+    contagem.textContent = n;
+    barra.style.transform = `scaleX(${n / total})`;
+    veredito.textContent = n === 0
+      ? 'Toque nos sinais que você reconhece.'
+      : n < 3
+        ? 'Vale observar e conversar na consulta, antes que a queda avance.'
+        : 'Uma avaliação capilar ajuda a entender a causa e começar o cuidado certo.';
+    const texto = base + (n ? ' Tenho notado: ' + marcados.join('; ') + '.' : '');
+    enviar.href = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+  };
+  botoes.forEach((b) => b.addEventListener('click', () => {
+    b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+    atualiza();
+  }));
+</script>
+
+<style>
+  .acoes { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 36px; }
+  .teste { display: flex; flex-wrap: wrap; gap: 56px 72px; align-items: flex-start; }
+  .teste-texto { flex: 1 1 380px; min-width: 0; position: sticky; top: 110px; }
+  .resultado { margin-top: 32px; background: var(--cartao); border-radius: 24px; padding: 32px; }
+  .contagem { font-family: var(--serif); font-size: 56px; line-height: 1; color: var(--cobre); }
+  .contagem small { font-size: 24px; color: var(--texto-2); }
+  .barra { height: 4px; border-radius: 4px; background: var(--linha-clara); margin: 18px 0; overflow: hidden; }
+  .barra span { display: block; height: 100%; background: var(--grad); transform: scaleX(0); transform-origin: left; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+  .veredito { color: var(--texto-2); margin-bottom: 22px; min-height: 52px; }
+  .lista-sinais { flex: 1 1 540px; min-width: 0; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .lista-sinais button {
+    width: 100%; display: flex; align-items: center; gap: 16px; padding: 20px 24px; border-radius: 18px;
+    background: var(--cartao); border: 1.5px solid var(--linha-clara); color: var(--texto);
+    font: 500 17px/1.4 var(--sans); text-align: left; cursor: pointer;
+    transition: background-color .25s ease, border-color .25s ease, transform .2s ease;
+  }
+  .lista-sinais button:hover { border-color: var(--dourado); transform: translateX(4px); }
+  .lista-sinais button[aria-pressed='true'] { background: var(--rosa); border-color: var(--cobre); }
+  .check { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--dourado); display: grid; place-items: center; transition: background-color .25s ease, border-color .25s ease; }
+  .check svg { opacity: 0; transform: scale(.5); transition: opacity .25s ease, transform .25s ease; }
+  [aria-pressed='true'] .check { background: var(--cobre); border-color: var(--cobre); }
+  [aria-pressed='true'] .check svg { opacity: 1; transform: none; }
+  .cab-split { display: flex; flex-wrap: wrap; gap: 24px 80px; align-items: flex-end; margin-bottom: 56px; }
+  .cab-split .h2 { flex: 1 1 520px; }
+  .cab-split .lead { flex: 1 1 340px; }
+  .causas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--linha-escura); border: 1px solid var(--linha-escura); border-radius: 24px; overflow: hidden; }
+  .causas div { background: var(--escuro); padding: 32px 28px; display: flex; flex-direction: column; gap: 10px; transition: background-color .3s ease; }
+  .causas div:hover { background: var(--escuro-3); }
+  .causas .t { font-family: var(--serif); font-size: 28px; line-height: 1.1; color: var(--claro); }
+  .causas .d { font-size: 15px; color: var(--claro-2); }
+  @media (max-width: 900px) { .teste-texto { position: static; } .causas { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .causas { grid-template-columns: 1fr; } }
+</style>

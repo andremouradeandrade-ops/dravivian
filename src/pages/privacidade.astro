@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="Política de privacidade · Dra. Vivian Kiss" description="Como tratamos os seus dados pessoais.">
+  <section class="sec bg-escuro topo-simples">
+    <div class="wrap"><h1 class="h1">Política de <em>privacidade</em></h1></div>
+  </section>
+  <section class="sec bg-creme">
+    <div class="wrap texto">
+      <p><strong>[Texto base. Revise com a Dra. Vivian e, se possível, com assessoria jurídica antes de publicar.]</strong></p>
+      <h2>Quem somos</h2>
+      <p>Este site pertence a {site.nome}, CNPJ {site.cnpj}.</p>
+      <h2>Quais dados coletamos</h2>
+      <p>Este site não tem formulários nem cadastro. Quando você clica em “Agendar”, é levado ao WhatsApp, e a conversa segue as regras de privacidade do próprio WhatsApp. As informações que você compartilhar por lá são usadas apenas para o agendamento e o atendimento.</p>
+      <h2>Cookies e métricas</h2>
+      <p>[Informar aqui se o site usar ferramentas de métricas, como Google Analytics ou Vercel Analytics.]</p>
+      <h2>Seus direitos</h2>
+      <p>Pela LGPD, você pode pedir acesso, correção ou exclusão dos seus dados a qualquer momento pelo WhatsApp {site.whatsappExibicao}.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .topo-simples { padding-top: 170px; padding-bottom: 72px; }
+  .texto { max-width: 760px; display: flex; flex-direction: column; gap: 16px; color: var(--texto-2); font-size: 17px; }
+  .texto h2 { font-size: 34px; color: var(--texto); margin-top: 24px; }
+</style>

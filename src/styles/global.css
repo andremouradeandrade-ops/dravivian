@@ -1,0 +1,125 @@
+:root {
+  --creme: #FAF3EE;
+  --creme-2: #F4E3D9;
+  --cartao: #FFFAF6;
+  --rosa: #F2D2C4;
+  --linha: #E3C3B2;
+  --linha-clara: #EBD3C6;
+  --texto: #3F1A0D;
+  --texto-2: #7A4A38;
+  --cobre: #96492C;
+  --cobre-escuro: #5A2414;
+  --cobre-claro: #E3A585;
+  --dourado: #C98B6B;
+  --escuro: #2A140D;
+  --escuro-2: #1E0E08;
+  --escuro-3: #351A10;
+  --linha-escura: #5E3021;
+  --claro: #FBF1EA;
+  --claro-2: #D9B8A6;
+  --grad: linear-gradient(135deg, #E8B08F 0%, #C47E5C 100%);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: Montserrat, system-ui, sans-serif;
+  --script: 'Pinyon Script', cursive;
+  --gutter: clamp(20px, 4vw, 40px);
+  --sec: clamp(72px, 10vw, 120px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+body {
+  margin: 0; background: var(--creme); color: var(--texto);
+  font-family: var(--sans); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--cobre); }
+a:hover { color: var(--cobre-escuro); }
+:focus-visible { outline: 2px solid var(--cobre-claro); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
+p { margin: 0; }
+
+.wrap { max-width: 1240px; margin: 0 auto; }
+.wrap-lg { max-width: 1360px; margin: 0 auto; }
+.sec { padding: var(--sec) var(--gutter); }
+.bg-creme { background: var(--creme); }
+.bg-creme-2 { background: var(--creme-2); }
+.bg-escuro { background: var(--escuro); color: #F6E6DC; }
+
+.h2 { font-size: clamp(40px, 5.4vw, 64px); line-height: 1.02; }
+.h2 em, .h1 em { color: var(--cobre); }
+.bg-escuro .h2, .bg-escuro .h1 { color: var(--claro); }
+.bg-escuro .h2 em, .bg-escuro .h1 em, .dark em { color: var(--cobre-claro); }
+.h1 { font-size: clamp(48px, 7vw, 84px); line-height: 1; }
+.script { font-family: var(--script); color: #D99A76; line-height: 1.2; font-size: clamp(30px, 3.4vw, 40px); }
+.lead { font-size: 17px; color: var(--texto-2); }
+.bg-escuro .lead { color: var(--claro-2); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Botões */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 30px; border-radius: 999px; border: 0;
+  font: 600 15px/1 var(--sans); text-decoration: none; cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-ouro { background: var(--grad); color: var(--escuro); box-shadow: 0 12px 30px -14px #E3A585; }
+.btn-ouro:hover { color: var(--escuro); box-shadow: 0 16px 36px -12px #E3A585; }
+.btn-cobre { background: var(--cobre); color: #fff; }
+.btn-cobre:hover { background: var(--cobre-escuro); color: #fff; }
+.btn-linha { border: 1.5px solid var(--dourado); color: var(--claro); background: transparent; }
+.btn-linha:hover { color: var(--claro); background: #ffffff10; }
+.btn-lg { min-height: 62px; padding: 0 38px; font-size: 18px; }
+
+/* Placeholder de foto */
+.foto-a-enviar {
+  background: linear-gradient(160deg, var(--rosa), #E3A585);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 24px; color: var(--cobre-escuro); font-size: 13px; font-weight: 600;
+}
+
+/* FAQ */
+.faq { border-top: 1px solid var(--linha); }
+.faq details { border-bottom: 1px solid var(--linha); }
+.faq summary {
+  list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 24px;
+  padding: 22px 0; font-family: var(--serif); font-size: clamp(22px, 2.2vw, 26px); line-height: 1.2;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq .mais { flex: none; color: var(--cobre); font: 400 26px/1 var(--sans); transition: transform .3s ease; }
+.faq details[open] .mais { transform: rotate(45deg); }
+.faq .resposta { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+.faq details[open] .resposta { grid-template-rows: 1fr; }
+.faq .resposta > div { overflow: hidden; }
+.faq .resposta p { padding: 0 0 22px; color: var(--texto-2); max-width: 640px; }
+
+/* Animação de entrada */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+.reveal.visivel { opacity: 1; transform: none; }
+.no-js .reveal { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* Peças compartilhadas das páginas internas */
+.split { display: flex; flex-wrap: wrap; gap: 56px 80px; }
+.split > :first-child { flex: 1 1 360px; min-width: 0; }
+.split > :last-child { flex: 1 1 600px; min-width: 0; }
+.grade-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.cartao { background: var(--cartao); border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+.cartao .t { font-family: var(--serif); font-size: 26px; line-height: 1.15; }
+.cartao .d { font-size: 15px; color: var(--texto-2); }
+.card-link {
+  display: flex; flex-direction: column; background: var(--cartao); border-radius: 24px; overflow: hidden;
+  text-decoration: none; color: var(--texto); transition: transform .35s ease, box-shadow .35s ease;
+}
+.card-link:hover { transform: translateY(-4px); color: var(--texto); box-shadow: 0 30px 60px -40px #5A2414; }
+.card-link .foto-a-enviar { height: 200px; }
+.card-link .corpo { padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 6px; }
+.card-link .area { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; color: var(--cobre); }
+.card-link .nome { font-family: var(--serif); font-size: 30px; line-height: 1.1; }
+.card-link .mais { font-weight: 600; font-size: 14px; color: var(--cobre); }

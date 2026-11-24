@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+import monograma from '../assets/monograma.png';
+import { site, menu, wa } from '../data/site';
+import IconeWhats from './IconeWhats.astro';
+
+const { atual } = Astro.props as { atual?: string };
+---
+<header class="topo" data-topo>
+  <div class="barra wrap-lg">
+    <a href="/" class="marca" aria-label={`${site.nomeCurto}, página inicial`}>
+      <Image src={monograma} alt="" width={156} height={100} class="mono" loading="eager" />
+      <span class="divisor" aria-hidden="true"></span>
+      <span class="nome">
+        <span class="n1">{site.nomeCurto}</span>
+        <span class="n2">{site.especialidade}</span>
+      </span>
+    </a>
+
+    <button class="abrir" type="button" aria-expanded="false" aria-controls="menu-principal" data-abrir>
+      <span class="sr-only">Abrir menu</span>
+      <span class="linhas" aria-hidden="true"><span></span><span></span></span>
+    </button>
+
+    <nav id="menu-principal" aria-label="Principal" class="menu" data-menu>
+      {menu.map((m) => (
+        <a href={m.href} aria-current={atual === m.secao ? 'page' : undefined}>{m.rotulo}</a>
+      ))}
+      <a class="btn btn-ouro agendar" href={wa()} target="_blank" rel="noopener">
+        <IconeWhats size={20} /> Agendar
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const topo = document.querySelector<HTMLElement>('[data-topo]')!;
+  const botao = document.querySelector<HTMLButtonElement>('[data-abrir]')!;
+  const onScroll = () => topo.classList.toggle('rolado', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const fechar = () => { topo.classList.remove('aberto'); botao.setAttribute('aria-expanded', 'false'); };
+  botao.addEventListener('click', () => {
+    const aberto = topo.classList.toggle('aberto');
+    botao.setAttribute('aria-expanded', String(aberto));
+  });
+  document.querySelectorAll('[data-menu] a').forEach((a) => a.addEventListener('click', fechar));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') fechar(); });
+</script>
+
+<style>
+  .topo {
+    position: fixed; inset: 0 0 auto; z-index: 40; color: #F6E6DC;
+    transition: background-color .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+  }
+  .topo.rolado, .topo.aberto {
+    background: #2A140DEB; backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px -20px #000;
+  }
+  .barra {
+    display: flex; align-items: center; gap: 16px 36px;
+    padding: 22px var(--gutter); transition: padding .35s ease;
+  }
+  .rolado .barra { padding-top: 12px; padding-bottom: 12px; }
+  .marca { display: flex; align-items: center; gap: 16px; text-decoration: none; color: #F6E6DC; margin-right: auto; }
+  .mono { width: 78px; height: 50px; object-fit: contain; transition: width .35s ease, height .35s ease; }
+  .rolado .mono { width: 62px; height: 40px; }
+  .divisor { width: 1px; height: 46px; background: #8A5A44; }
+  .nome { display: flex; flex-direction: column; line-height: 1.15; }
+  .n1 { font-family: var(--serif); font-size: 28px; font-weight: 500; }
+  .n2 { font-size: 14px; color: #E3C3B2; }
+
+  .menu { display: flex; align-items: center; gap: 4px 34px; }
+  .menu > a:not(.btn) {
+    position: relative; color: #F6E6DC; text-decoration: none; padding: 10px 0; font-size: 16px;
+  }
+  .menu > a:not(.btn)::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 4px; height: 1px;
+    background: var(--cobre-claro); transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+  }
+  .menu > a:not(.btn):hover::after, .menu > a[aria-current='page']::after { transform: scaleX(1); }
+  .menu > a[aria-current='page'] { color: var(--cobre-claro); }
+  .agendar { min-height: 50px; font-size: 17px; margin-left: 2px; }
+
+  .abrir { display: none; }
+
+  @media (max-width: 1100px) {
+    .abrir {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 48px; height: 48px; border-radius: 50%; border: 1px solid #8A5A44;
+      background: transparent; color: inherit; cursor: pointer;
+    }
+    .linhas { display: grid; gap: 6px; width: 20px; }
+    .linhas span { height: 1.5px; background: currentColor; transition: transform .3s ease; }
+    .aberto .linhas span:first-child { transform: translateY(3.75px) rotate(45deg); }
+    .aberto .linhas span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+    .menu {
+      position: absolute; inset: 100% 0 auto; flex-direction: column; align-items: stretch; gap: 0;
+      background: #2A140DF5; padding: 8px var(--gutter) 28px;
+      clip-path: inset(0 0 100% 0); visibility: hidden;
+      transition: clip-path .4s ease, visibility .4s;
+    }
+    .aberto .menu { clip-path: inset(0 0 0 0); visibility: visible; }
+    .menu > a:not(.btn) { padding: 16px 0; border-bottom: 1px solid #4A2619; font-family: var(--serif); font-size: 26px; }
+    .menu > a:not(.btn)::after { display: none; }
+    .agendar { margin-top: 20px; }
+  }
+  @media (max-width: 560px) {
+    .divisor, .n2 { display: none; }
+    .n1 { font-size: 22px; }
+    .mono { width: 56px; height: 36px; }
+  }
+</style>

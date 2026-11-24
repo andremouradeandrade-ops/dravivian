@@ -1,0 +1,26 @@
+---
+import { wa } from '../data/site';
+import IconeWhats from './IconeWhats.astro';
+---
+<a class="btn btn-cobre flutuante" href={wa()} target="_blank" rel="noopener" data-flutuante aria-label="Agendar pelo WhatsApp">
+  <IconeWhats size={22} /><span>Agendar</span>
+</a>
+
+<script>
+  const b = document.querySelector<HTMLElement>('[data-flutuante]')!;
+  const atualiza = () => b.classList.toggle('mostra', window.scrollY > window.innerHeight * 0.7);
+  atualiza();
+  window.addEventListener('scroll', atualiza, { passive: true });
+</script>
+
+<style>
+  .flutuante {
+    position: fixed; right: 20px; bottom: 20px; z-index: 50; min-height: 56px; padding: 0 24px;
+    box-shadow: 0 16px 36px -14px var(--escuro);
+    opacity: 0; transform: translateY(20px) scale(.95); pointer-events: none;
+    transition: opacity .35s ease, transform .35s ease, background-color .2s ease;
+  }
+  .flutuante.mostra { opacity: 1; transform: none; pointer-events: auto; }
+  .flutuante.mostra:hover { transform: translateY(-2px); }
+  @media (max-width: 560px) { .flutuante span { display: none; } .flutuante { width: 56px; padding: 0; } }
+</style>
