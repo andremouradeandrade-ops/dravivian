@@ -131,8 +131,12 @@ const faqSchema = {
         <div class="trat-lista" data-lista>
           {tratamentos.map((t, i) => (
             <button type="button" class="trat-item" aria-pressed={i === 0 ? 'true' : 'false'} aria-controls="painel-trat" data-item={t.slug} data-grupo={t.grupo}>
+              <span class="trat-topo">
+                <span class="trat-grupo">{t.grupo}</span>
+                <span class="trat-seta" aria-hidden="true">→</span>
+              </span>
               <span class="trat-nome">{t.nome}</span>
-              <span class="trat-grupo">{t.grupo}</span>
+              <span class="trat-resumo">{t.resumo}</span>
             </button>
           ))}
         </div>
@@ -366,12 +370,18 @@ const faqSchema = {
   .filtros button { min-height: 44px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--dourado); background: transparent; color: var(--cobre-escuro); font: 600 14px var(--sans); cursor: pointer; transition: background-color .25s ease, color .25s ease; }
   .filtros button[aria-pressed='true'] { background: var(--cobre); border-color: var(--cobre); color: #fff; }
   .trat-grade { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
-  .trat-lista { flex: 1 1 480px; min-width: 0; border-top: 1px solid var(--linha); }
-  .trat-item { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 20px; border: 0; border-bottom: 1px solid var(--linha); background: transparent; cursor: pointer; text-align: left; transition: background-color .25s ease; }
-  .trat-item:hover { background: #FFFAF680; }
-  .trat-item[aria-pressed='true'] { background: var(--cartao); }
-  .trat-nome { font-family: var(--serif); font-size: clamp(26px, 2.6vw, 36px); line-height: 1.1; color: var(--texto); transition: color .25s ease; }
+  .trat-lista { flex: 1 1 480px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .trat-item { width: 100%; display: flex; flex-direction: column; align-items: stretch; gap: 10px; padding: 22px 22px 24px; border: 1px solid var(--linha-clara); border-radius: 22px; background: #FFFAF699; cursor: pointer; text-align: left; font: inherit; transition: background-color .3s ease, border-color .3s ease, transform .3s ease, box-shadow .3s ease; }
+  .trat-item[hidden] { display: none; }
+  .trat-item:hover { background: var(--cartao); transform: translateY(-3px); box-shadow: 0 24px 44px -34px #5A2414; }
+  .trat-item[aria-pressed='true'] { background: var(--cartao); border-color: var(--cobre); box-shadow: 0 24px 44px -30px #5A2414; }
+  .trat-item:focus-visible { outline: 2px solid var(--cobre); outline-offset: 3px; }
+  .trat-topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .trat-seta { color: var(--cobre); opacity: 0; transform: translateX(-6px); transition: opacity .3s ease, transform .3s ease; }
+  .trat-item:hover .trat-seta, .trat-item[aria-pressed='true'] .trat-seta { opacity: 1; transform: none; }
+  .trat-nome { font-family: var(--serif); font-size: clamp(24px, 2.2vw, 30px); line-height: 1.1; color: var(--texto); transition: color .25s ease; }
   .trat-item[aria-pressed='true'] .trat-nome { color: var(--cobre); font-style: italic; }
+  .trat-resumo { font-size: 14px; line-height: 1.5; color: var(--texto-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .trat-grupo { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-2); }
   .painel { flex: 1 1 400px; min-width: 0; position: sticky; top: 110px; background: var(--cartao); border-radius: 28px; overflow: hidden; }
   .painel-item.troca { animation: aparece .45s ease both; }
