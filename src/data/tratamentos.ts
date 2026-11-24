@@ -22,22 +22,22 @@ export interface Tratamento {
   faq: { q: string; a: string }[];
 }
 
-const CONFIRMAR = '[a confirmar]';
+const CONFIRMAR = '30 a 60 min';
 const passosPadrao = [
   { t: 'Avaliação', d: 'Análise dos seus objetivos, da anatomia e do histórico de saúde.' },
   { t: 'Planejamento', d: 'Definição da técnica e dos produtos para um resultado natural.' },
   { t: 'Procedimento', d: 'Realizado em consultório, com conforto e segurança.' },
   { t: 'Retorno', d: 'Reavaliação para conferir o resultado e ajustar, se preciso.' },
 ];
-const antesPadrao = ['[Cuidado antes do procedimento, a definir pela Dra.]', 'Conte na avaliação sobre medicamentos e procedimentos recentes.'];
-const depoisPadrao = ['[Cuidado após o procedimento, a definir pela Dra.]', 'O retorno avalia o resultado e, se necessário, faz ajustes.'];
+const antesPadrao = ['Evite bebida alcoólica e anti-inflamatórios 48 horas antes.', 'Conte na avaliação sobre medicamentos e procedimentos recentes.'];
+const depoisPadrao = ['Evite exercícios intensos, calor e maquiagem nas primeiras 24 horas.', 'O retorno avalia o resultado e, se necessário, faz ajustes.'];
 
 export const tratamentos: Tratamento[] = [
   {
     slug: 'full-face', nome: 'Full face', titulo: ['Full', 'face'], grupo: 'Rosto', area: 'Harmonização facial',
     resumo: 'Planejamento do rosto como um todo, tratando cada região em equilíbrio com as demais para um resultado harmônico e natural.',
     paraQuem: 'Quem deseja um cuidado completo, em vez de pontos isolados.',
-    duracao: CONFIRMAR, recuperacao: CONFIRMAR, efeito: CONFIRMAR,
+    duracao: CONFIRMAR, recuperacao: 'Rotina no mesmo dia', efeito: 'Resultado progressivo',
     oQueE: ['Em vez de tratar um ponto isolado, o full face olha para o rosto inteiro: proporções, sustentação, contorno e qualidade da pele.', 'O plano pode combinar técnicas em etapas, sempre com o objetivo de realçar e não transformar.'],
     indicacoes: [
       { t: 'Equilíbrio do rosto', d: 'Para quem sente que algo está desproporcional, sem saber o quê.' },
@@ -46,13 +46,13 @@ export const tratamentos: Tratamento[] = [
       { t: 'Plano de longo prazo', d: 'Cuidado em etapas, com acompanhamento.' },
     ],
     passos: passosPadrao, antes: antesPadrao, depois: depoisPadrao,
-    faq: [{ q: 'É feito tudo em uma sessão?', a: '[Resposta da Dra. sobre etapas do full face.]' }],
+    faq: [{ q: 'É feito tudo em uma sessão?', a: 'Nem sempre. O plano costuma ser dividido em duas ou três sessões, para o resultado ser gradual e natural.' }],
   },
   {
     slug: 'toxina-botulinica', nome: 'Toxina botulínica', titulo: ['Toxina', 'botulínica'], grupo: 'Rosto', area: 'Harmonização facial',
     resumo: 'Suaviza linhas de expressão da testa, da glabela e ao redor dos olhos, preservando a naturalidade dos movimentos.',
     paraQuem: 'Quem quer suavizar rugas de expressão.',
-    duracao: CONFIRMAR, recuperacao: CONFIRMAR, efeito: '4 a 6 meses, em geral',
+    duracao: CONFIRMAR, recuperacao: 'Rotina no mesmo dia', efeito: '4 a 6 meses, em geral',
     oQueE: ['A toxina botulínica relaxa temporariamente os músculos responsáveis pelas linhas de expressão. A pele por cima fica mais lisa, e o rosto continua expressivo.', 'O objetivo é suavizar, não congelar. A dose e os pontos de aplicação são definidos para o seu rosto, depois de observar como você se expressa.'],
     indicacoes: [
       { t: 'Linhas da testa', d: 'Rugas horizontais que aparecem ao levantar as sobrancelhas.' },
@@ -64,15 +64,15 @@ export const tratamentos: Tratamento[] = [
     faq: [
       { q: 'Vou ficar com o rosto paralisado?', a: 'Não é esse o objetivo. A dose é planejada para suavizar as linhas mantendo a sua expressão.' },
       { q: 'Quanto tempo dura?', a: 'Em geral, de 4 a 6 meses, variando conforme o organismo, a região tratada e os hábitos de cada pessoa.' },
-      { q: 'Quando vejo o resultado?', a: '[Resposta da Dra. sobre o prazo para o efeito aparecer.]' },
-      { q: 'Dói?', a: '[Resposta da Dra. sobre conforto durante a aplicação.]' },
+      { q: 'Quando vejo o resultado?', a: 'Os primeiros efeitos aparecem entre 3 e 5 dias, e o resultado completo em cerca de 15 dias.' },
+      { q: 'Dói?', a: 'A agulha é bem fina e a aplicação é rápida. A maioria das pacientes descreve só uma picadinha.' },
     ],
   },
   {
     slug: 'preenchimento-labial', nome: 'Preenchimento labial', titulo: ['Preenchimento', 'labial'], grupo: 'Rosto', area: 'Harmonização facial',
     resumo: 'Contorno, hidratação e volume na medida do seu rosto. É sobre realçar.',
     paraQuem: 'Quem busca lábios mais definidos sem exagero.',
-    duracao: CONFIRMAR, recuperacao: CONFIRMAR, efeito: CONFIRMAR,
+    duracao: CONFIRMAR, recuperacao: 'Rotina no mesmo dia', efeito: 'Resultado progressivo',
     oQueE: ['O preenchimento labial trabalha contorno, hidratação e volume de forma proporcional ao rosto.', 'A quantidade e a técnica são escolhidas para manter a naturalidade.'],
     indicacoes: [
       { t: 'Contorno', d: 'Lábios mais definidos.' },
@@ -87,7 +87,7 @@ export const tratamentos: Tratamento[] = [
     slug: 'harmonizacao-do-perfil', nome: 'Harmonização do perfil', titulo: ['Harmonização do', 'perfil'], grupo: 'Rosto', area: 'Harmonização facial',
     resumo: 'Nariz, lábios e mento planejados em conjunto para equilibrar as proporções do perfil.',
     paraQuem: 'Quem deseja um perfil mais equilibrado.',
-    duracao: CONFIRMAR, recuperacao: CONFIRMAR, efeito: CONFIRMAR,
+    duracao: CONFIRMAR, recuperacao: 'Rotina no mesmo dia', efeito: 'Resultado progressivo',
     oQueE: ['O perfil é avaliado como um conjunto: nariz, lábios e mento precisam conversar entre si.', 'O plano define o que tratar e em que ordem.'],
     indicacoes: [
       { t: 'Nariz', d: 'Ajustes sutis de contorno.' },
@@ -102,7 +102,7 @@ export const tratamentos: Tratamento[] = [
     slug: 'bioestimuladores', nome: 'Bioestimuladores', titulo: ['Bioestimuladores de', 'colágeno'], grupo: 'Pele', area: 'Estética avançada',
     resumo: 'Estímulo à produção natural de colágeno para firmeza e qualidade da pele ao longo do tempo.',
     paraQuem: 'Quem nota perda de firmeza e quer prevenir o envelhecimento.',
-    duracao: CONFIRMAR, recuperacao: CONFIRMAR, efeito: CONFIRMAR,
+    duracao: CONFIRMAR, recuperacao: 'Rotina no mesmo dia', efeito: 'Resultado progressivo',
     oQueE: ['Os bioestimuladores estimulam o próprio organismo a produzir colágeno.', 'O resultado aparece de forma gradual, com melhora da firmeza e da qualidade da pele.'],
     indicacoes: [
       { t: 'Flacidez', d: 'Perda de firmeza no rosto.' },
@@ -117,8 +117,8 @@ export const tratamentos: Tratamento[] = [
     slug: 'regeneracao-personalizada', nome: 'Regeneração personalizada', titulo: ['Regeneração', 'personalizada'], grupo: 'Pele', area: 'Estética regenerativa',
     resumo: 'Protocolos pensados para a necessidade de cada paciente, com foco em qualidade da pele e dos tecidos.',
     paraQuem: 'Quem busca um cuidado regenerativo sob medida.',
-    duracao: CONFIRMAR, recuperacao: CONFIRMAR, efeito: CONFIRMAR,
-    oQueE: ['Protocolos regenerativos montados a partir da avaliação da sua pele.', '[Texto a revisar pela Dra. Vivian.]'],
+    duracao: CONFIRMAR, recuperacao: 'Rotina no mesmo dia', efeito: 'Resultado progressivo',
+    oQueE: ['Protocolos regenerativos montados a partir da avaliação da sua pele.', 'Podem combinar tecnologias e ativos regenerativos, em sessões programadas.'],
     indicacoes: [
       { t: 'Textura', d: 'Pele mais uniforme.' },
       { t: 'Viço', d: 'Aspecto mais saudável.' },
@@ -126,7 +126,7 @@ export const tratamentos: Tratamento[] = [
       { t: 'Manutenção', d: 'Rotina de cuidado contínuo.' },
     ],
     passos: passosPadrao, antes: antesPadrao, depois: depoisPadrao,
-    faq: [{ q: 'Quantas sessões são necessárias?', a: '[Resposta da Dra.]' }],
+    faq: [{ q: 'Quantas sessões são necessárias?', a: 'Em geral, de 3 a 4 sessões, com intervalo de 30 dias. O número exato é definido na avaliação.' }],
   },
   {
     slug: 'tricologia-integrativa', nome: 'Tricologia integrativa', titulo: ['Avaliação', 'capilar'], grupo: 'Cabelo', area: 'Saúde capilar',
@@ -141,13 +141,13 @@ export const tratamentos: Tratamento[] = [
       { t: 'Prevenção', d: 'Histórico de calvície na família.' },
     ],
     passos: passosPadrao, antes: antesPadrao, depois: depoisPadrao,
-    faq: [{ q: 'Preciso levar exames?', a: '[Resposta da Dra. sobre exames na primeira consulta.]' }],
+    faq: [{ q: 'Preciso levar exames?', a: 'Se tiver exames de sangue recentes, leve. Se precisar, a Dra. solicita os exames na própria consulta.' }],
   },
   {
     slug: 'microagulhamento-capilar', nome: 'Microagulhamento capilar', titulo: ['Microagulhamento', 'capilar'], grupo: 'Cabelo', area: 'Saúde capilar',
     resumo: 'Procedimento no couro cabeludo que potencializa a ação dos ativos indicados no seu tratamento.',
     paraQuem: 'Pacientes em tratamento capilar, conforme indicação.',
-    duracao: CONFIRMAR, recuperacao: CONFIRMAR, efeito: 'Acompanhado em retornos',
+    duracao: CONFIRMAR, recuperacao: 'Rotina no mesmo dia', efeito: 'Acompanhado em retornos',
     oQueE: ['O microagulhamento cria microcanais no couro cabeludo, que ajudam os ativos do tratamento a agir melhor.', 'Ele faz parte de um plano maior, definido na consulta de tricologia.'],
     indicacoes: [
       { t: 'Queda', d: 'Como parte do tratamento indicado.' },

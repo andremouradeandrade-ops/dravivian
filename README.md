@@ -20,7 +20,7 @@ npm run build    # gera a pasta dist/
 | Cores, fontes e espaçamentos | `src/styles/global.css` (variáveis no `:root`) |
 | Fotos | `src/assets/` |
 
-Tudo que está entre colchetes, como `[CNPJ]`, ainda precisa ser preenchido.
+**Atenção:** os dados atuais (registro, endereço, CNPJ, números, formação, respostas do FAQ e o depoimento) são **fictícios**, só para apresentação. Troque pelos reais antes de publicar.
 Blocos "Foto a enviar" são trocados por `<Image src={...} />` quando as fotos chegarem.
 
 ## Páginas

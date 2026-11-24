@@ -27,10 +27,10 @@ const areas = [
 const nomeDe = (slug: string) => tratamentos.find((t) => t.slug === slug)!.nome;
 
 const passos = [
-  { t: 'Contato', d: 'Você chama no WhatsApp e agenda o melhor horário.', info: 'Resposta em [PRAZO]' },
-  { t: 'Avaliação', d: 'Conversa sobre seus objetivos, histórico e análise do rosto ou do couro cabeludo.', info: 'Duração: [TEMPO]' },
+  { t: 'Contato', d: 'Você chama no WhatsApp e agenda o melhor horário.', info: 'Resposta no mesmo dia útil' },
+  { t: 'Avaliação', d: 'Conversa sobre seus objetivos, histórico e análise do rosto ou do couro cabeludo.', info: 'Duração: cerca de 1 hora' },
   { t: 'Plano personalizado', d: 'Indicação das técnicas e produtos adequados, com explicação de cada etapa.', info: 'Valores apresentados na avaliação' },
-  { t: 'Acompanhamento', d: 'Retornos para avaliar a evolução e ajustar o cuidado.', info: 'Retorno: [CONDIÇÕES]' },
+  { t: 'Acompanhamento', d: 'Retornos para avaliar a evolução e ajustar o cuidado.', info: 'Retorno em 15 dias incluso' },
 ];
 
 const faqSchema = {
@@ -211,8 +211,8 @@ const faqSchema = {
         <div class="foto-a-enviar reveal" style="--d:80ms">Foto a enviar: recepção</div>
         <div class="foto-a-enviar reveal" style="--d:160ms">Foto a enviar: tricoscópio e equipamentos</div>
         <div class="avaliacao reveal" style="--d:240ms">
-          <div class="nota-google"><span class="num">[NOTA]</span><span>no Google · [Nº] avaliações</span></div>
-          <p class="depo">[Depoimento real de paciente, copiado do Google com autorização]</p>
+          <div class="nota-google"><span class="num">5,0</span><span>no Google · 120 avaliações (exemplo)</span></div>
+          <p class="depo">“Saí da consulta entendendo exatamente o que seria feito e por quê. O resultado ficou natural, do jeito que eu queria.” — Paciente (depoimento de exemplo)</p>
           <a href="#contato" class="saiba">Ver avaliações no Google →</a>
         </div>
       </div>
