@@ -29,8 +29,8 @@ const passosPadrao = [
   { t: 'Procedimento', d: 'Realizado em consultório, com conforto e segurança.' },
   { t: 'Retorno', d: 'Reavaliação para conferir o resultado e ajustar, se preciso.' },
 ];
-const antesPadrao = ['Evite bebida alcoólica e anti-inflamatórios 48 horas antes.', 'Conte na avaliação sobre medicamentos e procedimentos recentes.'];
-const depoisPadrao = ['Evite exercícios intensos, calor e maquiagem nas primeiras 24 horas.', 'O retorno avalia o resultado e, se necessário, faz ajustes.'];
+const antesPadrao = ['Informe os medicamentos que usa e os procedimentos recentes.', 'Confirme os preparativos na avaliação.'];
+const depoisPadrao = ['Siga as orientações recebidas para o seu procedimento.', 'Confirme quando retomar as atividades e se haverá retorno.'];
 
 export const tratamentos: Tratamento[] = [
   {

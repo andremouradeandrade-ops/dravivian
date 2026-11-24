@@ -1,5 +1,7 @@
 ---
 import { Image } from 'astro:assets';
+import FotoIlustrativa from './FotoIlustrativa.astro';
+import type { Foto } from '../data/fotos';
 import fundo from '../assets/fundo.jpg';
 
 interface Props {
@@ -7,7 +9,7 @@ interface Props {
   sobretitulo: string;
   titulo: [string, string];
   resumo: string;
-  foto: string;
+  foto: Foto;
 }
 const { trilha, sobretitulo, titulo, resumo, foto } = Astro.props;
 ---
@@ -31,7 +33,7 @@ const { trilha, sobretitulo, titulo, resumo, foto } = Astro.props;
       <div class="entra" style="--i:4"><slot /></div>
     </div>
     <div class="arco entra" style="--i:3">
-      <div class="foto-a-enviar interno">{foto}</div>
+      <FotoIlustrativa foto={foto} altura="100%" sizes="(max-width: 500px) 90vw, 440px" eager />
     </div>
   </div>
 </section>
@@ -48,10 +50,10 @@ const { trilha, sobretitulo, titulo, resumo, foto } = Astro.props;
   .resumo { margin-top: 26px; max-width: 580px; font-size: 19px; color: #F2DCCF; }
   .arco {
     flex: 0 1 440px; min-width: 0; height: clamp(380px, 45vw, 540px);
-    border-radius: 220px 220px 24px 24px; padding: 4px;
+    border-radius: 220px 220px 24px 24px; padding: 4px; overflow: hidden;
     background: linear-gradient(180deg, #F2C3A4 0%, #A0543A 70%, #6E3420 100%);
   }
-  .interno { width: 100%; height: 100%; border-radius: 216px 216px 20px 20px; padding: 40px; font-size: 14px; }
+  .arco > :global(figure) { border-radius: 216px 216px 20px 20px; }
   .entra { animation: sobe .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i) * 110ms + 100ms); }
   @keyframes sobe { from { opacity: 0; transform: translateY(24px); } }
 </style>

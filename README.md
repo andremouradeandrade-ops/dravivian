@@ -14,14 +14,14 @@ npm run build    # gera a pasta dist/
 
 | O quê | Arquivo |
 |---|---|
-| WhatsApp, endereço, horários, registro, CNPJ, credenciais, formação | `src/data/site.ts` |
+| WhatsApp, Instagram e informações institucionais | `src/data/site.ts` |
 | Perguntas frequentes da Home e sinais capilares | `src/data/site.ts` |
 | Tratamentos (cada um gera `/tratamentos/<slug>`) | `src/data/tratamentos.ts` |
 | Cores, fontes e espaçamentos | `src/styles/global.css` (variáveis no `:root`) |
 | Fotos | `src/assets/` |
 
-**Atenção:** os dados atuais (registro, endereço, CNPJ, números, formação, respostas do FAQ e o depoimento) são **fictícios**, só para apresentação. Troque pelos reais antes de publicar.
-Blocos "Foto a enviar" são trocados por `<Image src={...} />` quando as fotos chegarem.
+Confirme os canais de contato, a localização, os dados profissionais e o conteúdo clínico com a Dra. Vivian antes de publicar.
+As fotos geradas são identificadas como ilustrativas. As fotos dos tratamentos são organizadas por área em `src/data/fotos.ts`.
 
 ## Páginas
 

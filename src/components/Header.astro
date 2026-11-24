@@ -3,13 +3,15 @@ import { Image } from 'astro:assets';
 import monograma from '../assets/monograma.png';
 import { site, menu, wa } from '../data/site';
 import IconeWhats from './IconeWhats.astro';
+import { tratamentos } from '../data/tratamentos';
+import { fotoDoTratamento } from '../data/fotos';
 
 const { atual } = Astro.props as { atual?: string };
 ---
 <header class="topo" data-topo>
   <div class="barra wrap-lg">
     <a href="/" class="marca" aria-label={`${site.nomeCurto}, página inicial`}>
-      <Image src={monograma} alt="" width={156} height={100} class="mono" loading="eager" />
+      <Image src={monograma} alt="" width={156} class="mono" loading="eager" />
       <span class="divisor" aria-hidden="true"></span>
       <span class="nome">
         <span class="n1">{site.nomeCurto}</span>
@@ -23,12 +25,36 @@ const { atual } = Astro.props as { atual?: string };
     </button>
 
     <nav id="menu-principal" aria-label="Principal" class="menu" data-menu>
-      {menu.map((m) => (
-        <a href={m.href} aria-current={atual === m.secao ? 'page' : undefined}>{m.rotulo}</a>
-      ))}
-      <a class="btn btn-ouro agendar" href={wa()} target="_blank" rel="noopener">
-        <IconeWhats size={20} /> Agendar
-      </a>
+      <div class="itens">
+        {menu.map((m) => m.secao === 'tratamentos' ? (
+          <>
+            <a class="so-desk" href={m.href} aria-current={atual === m.secao ? 'page' : undefined}>{m.rotulo}</a>
+            <details class="so-mob trat">
+              <summary>{m.rotulo}<span class="mais" aria-hidden="true"></span></summary>
+              <ul>
+                {tratamentos.map((t) => {
+                  const f = fotoDoTratamento(t);
+                  return (
+                    <li>
+                      <a href={`/tratamentos/${t.slug}`}>
+                        <Image src={f.src} alt="" width={112} height={112} class="mini" />
+                        <span><span class="t-nome">{t.nome}</span><span class="t-grupo">{t.grupo}</span></span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </details>
+          </>
+        ) : (
+          <a href={m.href} aria-current={atual === m.secao ? 'page' : undefined}>{m.rotulo}</a>
+        ))}
+      </div>
+      <div class="rodape-menu">
+        <a class="btn btn-ouro agendar" href={wa()} target="_blank" rel="noopener">
+          <IconeWhats size={20} /> Agendar
+        </a>
+      </div>
     </nav>
   </div>
 </header>
@@ -40,11 +66,15 @@ const { atual } = Astro.props as { atual?: string };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  const fechar = () => { topo.classList.remove('aberto'); botao.setAttribute('aria-expanded', 'false'); };
-  botao.addEventListener('click', () => {
-    const aberto = topo.classList.toggle('aberto');
+  const definir = (aberto: boolean) => {
+    topo.classList.toggle('aberto', aberto);
     botao.setAttribute('aria-expanded', String(aberto));
-  });
+    botao.querySelector('.sr-only')!.textContent = aberto ? 'Fechar menu' : 'Abrir menu';
+    document.documentElement.classList.toggle('menu-aberto', aberto);
+  };
+  const fechar = () => definir(false);
+  botao.addEventListener('click', () => definir(!topo.classList.contains('aberto')));
+  window.matchMedia('(min-width: 1101px)').addEventListener('change', (e) => { if (e.matches) fechar(); });
   document.querySelectorAll('[data-menu] a').forEach((a) => a.addEventListener('click', fechar));
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') fechar(); });
 </script>
@@ -71,44 +101,91 @@ const { atual } = Astro.props as { atual?: string };
   .n1 { font-family: var(--serif); font-size: 28px; font-weight: 500; }
   .n2 { font-size: 14px; color: #E3C3B2; }
 
-  .menu { display: flex; align-items: center; gap: 4px 34px; }
-  .menu > a:not(.btn) {
+  .menu, .itens, .rodape-menu { display: flex; align-items: center; gap: 4px 34px; }
+  .so-mob { display: none; }
+  .itens > a {
     position: relative; color: #F6E6DC; text-decoration: none; padding: 10px 0; font-size: 16px;
   }
-  .menu > a:not(.btn)::after {
+  .itens > a::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: 4px; height: 1px;
     background: var(--cobre-claro); transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
   }
-  .menu > a:not(.btn):hover::after, .menu > a[aria-current='page']::after { transform: scaleX(1); }
-  .menu > a[aria-current='page'] { color: var(--cobre-claro); }
+  .itens > a:hover::after, .itens > a[aria-current='page']::after { transform: scaleX(1); }
+  .itens > a[aria-current='page'] { color: var(--cobre-claro); }
   .agendar { min-height: 50px; font-size: 17px; margin-left: 2px; }
 
   .abrir { display: none; }
 
   @media (max-width: 1100px) {
+    :global(html.menu-aberto) { overflow: hidden; }
+    /* backdrop-filter prenderia o menu fixo dentro do cabeçalho */
+    .topo.aberto { backdrop-filter: none; background: #2A140D; box-shadow: none; }
+    .marca, .abrir { position: relative; z-index: 2; }
     .abrir {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 48px; height: 48px; border-radius: 50%; border: 1px solid #8A5A44;
+      flex: none; width: 48px; height: 48px; border-radius: 50%; border: 1px solid #8A5A44;
       background: transparent; color: inherit; cursor: pointer;
     }
     .linhas { display: grid; gap: 6px; width: 20px; }
     .linhas span { height: 1.5px; background: currentColor; transition: transform .3s ease; }
     .aberto .linhas span:first-child { transform: translateY(3.75px) rotate(45deg); }
     .aberto .linhas span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+
+    .so-desk { display: none !important; }
+    .so-mob { display: block; }
+
+    /* Menu em tela cheia */
     .menu {
-      position: absolute; inset: 100% 0 auto; flex-direction: column; align-items: stretch; gap: 0;
-      background: #2A140DF5; padding: 8px var(--gutter) 28px;
-      clip-path: inset(0 0 100% 0); visibility: hidden;
-      transition: clip-path .4s ease, visibility .4s;
+      position: fixed; inset: 0; z-index: 1; height: 100dvh;
+      flex-direction: column; align-items: stretch; justify-content: space-between; gap: 32px;
+      background: #2A140D; overflow-y: auto; overscroll-behavior: contain;
+      padding: 112px var(--gutter) max(28px, env(safe-area-inset-bottom));
+      opacity: 0; visibility: hidden; transform: translateY(-12px);
+      transition: opacity .35s ease, transform .35s ease, visibility .35s;
     }
-    .aberto .menu { clip-path: inset(0 0 0 0); visibility: visible; }
-    .menu > a:not(.btn) { padding: 16px 0; border-bottom: 1px solid #4A2619; font-family: var(--serif); font-size: 26px; }
-    .menu > a:not(.btn)::after { display: none; }
-    .agendar { margin-top: 20px; }
+    .aberto .menu { opacity: 1; visibility: visible; transform: none; }
+    .itens { flex-direction: column; align-items: stretch; gap: 0; }
+    .itens > a, .trat summary {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0; border-bottom: 1px solid #4A2619; color: #F6E6DC; text-decoration: none;
+      font-family: var(--serif); font-size: clamp(30px, 9vw, 40px); line-height: 1.1;
+    }
+    .itens > a::after { display: none; }
+
+    /* Entrada escalonada dos itens */
+    .itens > * { opacity: 0; transform: translateY(14px); transition: opacity .4s ease, transform .4s ease; }
+    .aberto .itens > * { opacity: 1; transform: none; }
+    .aberto .itens > :nth-child(2) { transition-delay: .06s; }
+    .aberto .itens > :nth-child(3) { transition-delay: .1s; }
+    .aberto .itens > :nth-child(4) { transition-delay: .14s; }
+    .aberto .itens > :nth-child(5) { transition-delay: .18s; }
+    .aberto .itens > :nth-child(6) { transition-delay: .22s; }
+
+    .trat summary { list-style: none; cursor: pointer; }
+    .trat summary::-webkit-details-marker { display: none; }
+    .mais { position: relative; width: 18px; height: 18px; flex: none; }
+    .mais::before, .mais::after { content: ''; position: absolute; inset: 50% 0 auto; height: 1.5px; background: var(--cobre-claro); transition: transform .3s ease; }
+    .mais::after { transform: rotate(90deg); }
+    .trat[open] .mais::after { transform: rotate(0); }
+    .trat ul { list-style: none; margin: 0; padding: 8px 0 12px; display: grid; gap: 4px; border-bottom: 1px solid #4A2619; }
+    .trat li a { display: flex; align-items: center; gap: 14px; padding: 6px 0; color: #F6E6DC; text-decoration: none; }
+    .mini { width: 56px; height: 56px; object-fit: cover; border-radius: 4px; flex: none; }
+    .t-nome { display: block; font-size: 17px; }
+    .t-grupo { display: block; font-size: 13px; color: #C9A08C; }
+
+    .rodape-menu { flex-direction: column; align-items: stretch; gap: 18px; }
+    .agendar { margin: 0; justify-content: center; }
+    .extras { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; margin: 0; font-size: 14px; color: #C9A08C; }
+    .extras a { color: #E3C3B2; }
+  }
+  @media (max-width: 1100px) and (prefers-reduced-motion: reduce) {
+    .menu, .itens > * { transition: none; transform: none; }
   }
   @media (max-width: 560px) {
-    .divisor, .n2 { display: none; }
-    .n1 { font-size: 22px; }
-    .mono { width: 56px; height: 36px; }
+    .barra { gap: 12px; }
+    .marca { gap: 12px; min-width: 0; }
+    .mono { flex: none; }
+    .n1 { font-size: 24px; }
+    .n2 { font-size: 12px; }
   }
 </style>
