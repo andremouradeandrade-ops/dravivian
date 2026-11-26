@@ -27,7 +27,7 @@ const negocio = {
 };
 ---
 <!doctype html>
-<html lang="pt-BR" class="no-js">
+<html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,7 +45,6 @@ const negocio = {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet" />
-  <script is:inline>document.documentElement.classList.remove('no-js');</script>
   {[negocio, ...schema].map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
 </head>
 <body>
@@ -58,13 +57,20 @@ const negocio = {
   <WhatsFlutuante />
 
   <script>
-    // Revela elementos ao rolar
-    const io = new IntersectionObserver((entradas) => {
-      for (const e of entradas) {
-        if (e.isIntersecting) { e.target.classList.add('visivel'); io.unobserve(e.target); }
-      }
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observador = new IntersectionObserver((entradas) => {
+        for (const entrada of entradas) {
+          if (!entrada.isIntersecting) continue;
+          entrada.target.classList.remove('reveal-pendente');
+          observador.unobserve(entrada.target);
+        }
+      });
+      document.querySelectorAll('.reveal').forEach((elemento) => {
+        if (elemento.getBoundingClientRect().top < window.innerHeight) return;
+        elemento.classList.add('reveal-pendente');
+        observador.observe(elemento);
+      });
+    }
   </script>
 </body>
 </html>

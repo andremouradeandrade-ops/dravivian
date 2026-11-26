@@ -1,4 +1,6 @@
 ---
+import FotoIlustrativa from '../../components/FotoIlustrativa.astro';
+import { fotoDoTratamento } from '../../data/fotos';
 import Base from '../../layouts/Base.astro';
 import HeroInterno from '../../components/HeroInterno.astro';
 import Passos from '../../components/Passos.astro';
@@ -27,7 +29,7 @@ const schema = [
     sobretitulo={t.area}
     titulo={t.titulo}
     resumo={t.resumo}
-    foto={`Foto a enviar: ${t.nome}`}
+    foto={fotoDoTratamento(t)}
   >
     <dl class="fatos">
       <div><dt>Duração</dt><dd>{t.duracao}</dd></div>
@@ -90,7 +92,7 @@ const schema = [
       <div class="grade-cards">
         {outros.map((o, n) => (
           <a class="card-link reveal" style={`--d:${n * 90}ms`} href={`/tratamentos/${o.slug}`}>
-            <span class="foto-a-enviar">Foto a enviar</span>
+            <FotoIlustrativa foto={fotoDoTratamento(o)} altura="200px" sizes="(max-width: 620px) 100vw, 33vw" />
             <span class="corpo"><span class="area">{o.area}</span><span class="nome">{o.nome}</span><span class="mais">Saiba mais →</span></span>
           </a>
         ))}

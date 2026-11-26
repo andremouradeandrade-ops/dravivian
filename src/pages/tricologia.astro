@@ -1,4 +1,6 @@
 ---
+import FotoIlustrativa from '../components/FotoIlustrativa.astro';
+import { fotoDoTratamento, fotos } from '../data/fotos';
 import Base from '../layouts/Base.astro';
 import HeroInterno from '../components/HeroInterno.astro';
 import Passos from '../components/Passos.astro';
@@ -40,7 +42,7 @@ const faq = [
     sobretitulo="Saúde capilar"
     titulo={['Tricologia clínica', 'integrativa']}
     resumo="O cuidado dos fios começa pela causa da queda. Avaliamos couro cabeludo, fios, hábitos e fatores internos para montar um plano que trate a origem."
-    foto="Foto a enviar: Dra. Vivian com tricoscópio"
+    foto={fotos.Cabelo}
   >
     <div class="acoes">
       <a class="btn btn-ouro btn-lg" href={wa(msg)} target="_blank" rel="noopener">Agendar consulta capilar</a>
@@ -102,7 +104,7 @@ const faq = [
       <div class="grade-cards">
         {capilares.map((t, i) => (
           <a class="card-link reveal" style={`--d:${i * 90}ms`} href={`/tratamentos/${t.slug}`}>
-            <span class="foto-a-enviar">Foto a enviar</span>
+            <FotoIlustrativa foto={fotoDoTratamento(t)} altura="200px" sizes="(max-width: 620px) 100vw, 33vw" />
             <span class="corpo"><span class="nome">{t.nome}</span><span style="font-size:15px;color:var(--texto-2)">{t.resumo}</span><span class="mais">Saiba mais →</span></span>
           </a>
         ))}
@@ -149,6 +151,10 @@ const faq = [
 
 <style>
   .acoes { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 36px; }
+  @media (max-width: 767px) {
+    .acoes { flex-direction: column; margin-top: 28px; }
+    .acoes .btn { width: 100%; text-align: center; }
+  }
   .teste { display: flex; flex-wrap: wrap; gap: 56px 72px; align-items: flex-start; }
   .teste-texto { flex: 1 1 380px; min-width: 0; position: sticky; top: 110px; }
   .resultado { margin-top: 32px; background: var(--cartao); border-radius: 24px; padding: 32px; }
@@ -174,7 +180,7 @@ const faq = [
   .cab-split .h2 { flex: 1 1 520px; }
   .cab-split .lead { flex: 1 1 340px; }
   .causas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--linha-escura); border: 1px solid var(--linha-escura); border-radius: 24px; overflow: hidden; }
-  .causas div { background: var(--escuro); padding: 32px 28px; display: flex; flex-direction: column; gap: 10px; transition: background-color .3s ease; }
+  .causas div { background: var(--escuro); padding: 32px 28px; display: flex; flex-direction: column; gap: 10px; transition: var(--reveal-transition), background-color .3s ease; }
   .causas div:hover { background: var(--escuro-3); }
   .causas .t { font-family: var(--serif); font-size: 28px; line-height: 1.1; color: var(--claro); }
   .causas .d { font-size: 15px; color: var(--claro-2); }
